@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:14.1
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      - "POSTGRES_USER=${PGS_USER}"
+      - "POSTGRES_PASSWORD=${PGS_PASS}"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    volumes:
+      - ./${APP_NAME}:/opt/${APP_NAME}
+    depends_on:
+      - db
+    environment:
+      - "APP_NAME=${APP_NAME}"
+      - "PGS_HOST=${PGS_HOST}"
+      - "PGS_USER=${PGS_USER}"
+      - "PGS_PASS=${PGS_PASS}"
+      - "RAILS_ENV=${RAILS_ENV}"

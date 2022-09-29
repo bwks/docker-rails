@@ -1,0 +1,37 @@
+# Dockerfile.rails
+# Use this to generate a new rails application
+FROM ruby:3.1.2-alpine3.16 AS rails-base
+
+# ARGs are passed in via the `--build-arg ` CLI argument
+ARG APP_NAME
+ARG APP_USER
+ARG APP_USER_ID
+ARG APP_GROUP_ID
+
+# Static variables
+ARG APP_PATH="/opt/${APP_NAME}"
+ARG BUILD_PACKAGES="build-base"
+
+# Install build Deps
+RUN echo "http://dl-4.alpinelinux.org/alpine/v3.16/main" >> /etc/apk/repositories \
+  && echo "http://dl-4.alpinelinux.org/alpine/v3.16/community" >> /etc/apk/repositories \
+  && apk update \
+  && apk add ${BUILD_PACKAGES}
+
+# Create app user and group
+RUN addgroup -S ${APP_USER} -g ${APP_GROUP_ID}  && adduser -u ${APP_USER_ID} -S ${APP_USER} -G ${APP_USER}
+
+# Set working directory
+WORKDIR ${APP_PATH}
+
+# Set directory ownership
+RUN chown -R ${APP_USER_ID}:${APP_GROUP_ID} ${APP_PATH}
+
+# Install rails
+RUN gem install rails bundler --no-document
+
+# Set the app user
+USER ${APP_USER}
+
+# Run a shell
+CMD ["/bin/sh"]
