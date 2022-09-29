@@ -12,7 +12,7 @@ ARG APP_GROUP_ID
 ARG APP_PATH="/opt/${APP_NAME}"
 ARG BUILD_PACKAGES="build-base"
 
-# Install build Deps
+# Install build deps
 RUN echo "http://dl-4.alpinelinux.org/alpine/v3.16/main" >> /etc/apk/repositories \
   && echo "http://dl-4.alpinelinux.org/alpine/v3.16/community" >> /etc/apk/repositories \
   && apk update \
