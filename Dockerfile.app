@@ -2,6 +2,7 @@
 FROM ruby:3.1.2-alpine3.16 AS app-base
 
 ARG APP_NAME
+ARG APP_USER
 
 ARG RUN_PACKAGES="build-base tzdata postgresql-dev postgresql-client nodejs yarn"
 
@@ -27,6 +28,7 @@ RUN bundle clean --force \
   && find /usr/local/bundle/gems/ -name "*.c" -delete \
   && find /usr/local/bundle/gems/ -name "*.o" -delete
 
+# USER ${APP_USER}
 
 # Add a script to be executed every time the container starts.
 EXPOSE 3000

@@ -12,12 +12,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
+    user: "${APP_USER_ID}:${APP_GROUP_ID}"
     volumes:
       - ./${APP_NAME}:/opt/${APP_NAME}
     depends_on:
       - db
     environment:
       - "APP_NAME=${APP_NAME}"
+      - "APP_USER_ID=${APP_USER_ID}"
+      - "APP_GROUP_ID=${APP_GROUP_ID}"
       - "PGS_HOST=${PGS_HOST}"
       - "PGS_USER=${PGS_USER}"
       - "PGS_PASS=${PGS_PASS}"
