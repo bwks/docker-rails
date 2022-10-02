@@ -8,7 +8,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
-    command: sh -c "rails db:create && rails db:migrate && rails db:reset && rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    user: "${APP_USER_ID}:${APP_GROUP_ID}"
+    command: sh -c "bin/rails db:create && bin/rails db:migrate && rm -f tmp/pids/server.pid && bundle exec bin/rails s -p 3000 -b '0.0.0.0'"
     networks:
       - backend
 

@@ -7,12 +7,12 @@ services:
     environment:
       - "POSTGRES_USER=${PGS_USER}"
       - "POSTGRES_PASSWORD=${PGS_PASS}"
-
   app:
     build:
       context: .
-      dockerfile: Dockerfile.app
-    user: "${APP_USER_ID}:${APP_GROUP_ID}"
+      dockerfile: Dockerfile
+    image: rails-base
+    user: ${APP_USER_ID}:${APP_GROUP_ID}
     volumes:
       - ./${APP_NAME}:/opt/${APP_NAME}
     depends_on:
